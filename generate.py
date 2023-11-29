@@ -24,7 +24,7 @@ except:  # noqa: E722
 
 
 def main(
-    load_8bit: bool = False,
+    load_4bit: bool = True,
     base_model: str = "",
     lora_weights: str = "tloen/alpaca-lora-7b",
     prompt_template: str = "",  # The prompt template to use, will default to alpaca.
@@ -41,7 +41,7 @@ def main(
     if device == "cuda":
         model = LlamaForCausalLM.from_pretrained(
             base_model,
-            load_in_8bit=load_8bit,
+            load_in_4bit=load_4bit,
             torch_dtype=torch.float16,
             device_map="auto",
         )
@@ -77,7 +77,7 @@ def main(
     model.config.bos_token_id = 1
     model.config.eos_token_id = 2
 
-    if not load_8bit:
+    if not load_4bit:
         model.half()  # seems to fix bugs for some users.
 
     model.eval()

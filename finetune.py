@@ -33,10 +33,10 @@ def train(
     # training hyperparams
     batch_size: int = 128,
     micro_batch_size: int = 4,
-    num_epochs: int = 3,
+    num_epochs: int = 100,
     learning_rate: float = 3e-4,
     cutoff_len: int = 256,
-    val_set_size: int = 2000,
+    val_set_size: int = 20,#2000,
     # lora hyperparams
     lora_r: int = 8,
     lora_alpha: int = 16,
@@ -111,8 +111,10 @@ def train(
 
     model = LlamaForCausalLM.from_pretrained(
         base_model,
-        load_in_8bit=True,
-        torch_dtype=torch.float16,
+        load_in_8bit=False,#True,
+        #load_in_8bit=True,
+        #torch_dtype=torch.float16,
+        torch_dtype=torch.float32,
         device_map=device_map,
     )
 
@@ -239,7 +241,8 @@ def train(
             warmup_steps=100,
             num_train_epochs=num_epochs,
             learning_rate=learning_rate,
-            fp16=True,
+            fp16=False,#True,
+            #fp16=True,
             logging_steps=10,
             optim="adamw_torch",
             evaluation_strategy="steps" if val_set_size > 0 else "no",
