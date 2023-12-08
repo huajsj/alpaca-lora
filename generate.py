@@ -24,7 +24,7 @@ except:  # noqa: E722
 
 
 def main(
-    load_4bit: bool = True,
+    load_4bit: bool = False,
     base_model: str = "",
     lora_weights: str = "tloen/alpaca-lora-7b",
     prompt_template: str = "",  # The prompt template to use, will default to alpaca.
